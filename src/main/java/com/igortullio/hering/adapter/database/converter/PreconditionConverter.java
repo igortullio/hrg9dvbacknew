@@ -14,9 +14,13 @@ public class PreconditionConverter implements AttributeConverter<Precondition, S
 
     @Override
     public String convertToDatabaseColumn(Precondition attribute) {
-        return Objects.nonNull(attribute)
-                ? attribute.getUserField().name() + CONCAT + attribute.getCondition()
-                : null;
+        if (Objects.isNull(attribute)) {
+            return null;
+        }
+        return attribute.getUserField().name() + CONCAT
+                + attribute.getConditionString() + CONCAT
+                + attribute.getConditionInteger() + CONCAT
+                + attribute.getBiPredicatePosition();
     }
 
     @Override
@@ -26,7 +30,12 @@ public class PreconditionConverter implements AttributeConverter<Precondition, S
         }
 
         String[] split = dbData.split(CONCAT);
-        return new Precondition(UserField.valueOf(split[0]), split[1]);
+        return new Precondition(
+                UserField.valueOf(split[0]),
+                split[1],
+                Integer.parseInt(split[2]),
+                Integer.parseInt(split[3])
+        );
     }
 
 }

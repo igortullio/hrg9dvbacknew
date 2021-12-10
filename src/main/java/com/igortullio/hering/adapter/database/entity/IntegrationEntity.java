@@ -30,7 +30,7 @@ public class IntegrationEntity extends AbstractEntity {
     private static final long serialVersionUID = -5830006927012660737L;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Format format;
 
     @Enumerated(EnumType.STRING)
